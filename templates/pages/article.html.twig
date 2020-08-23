@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+	<div class="container">
+        <h1 class="mb-5">Liste des dernières actualités de {{data[0].source.name}}</h1>
+		{% for d in data %}
+			<a href="{{d.url}}" target="_blank" style=" text-decoration: none; background-color: none; color:black;">
+            <div class="media mb-5">
+				<img src="{{d.urlToImage}}" height="64" width="64" class="align-self-center mr-3" alt="image de l'article">
+				<div class="media-body">
+					<h5 class="mt-0">{{d.title}}</h5>
+					<p>
+						{% autoescape %}
+							{{ d.description|raw }}
+							{# var won't be escaped #}
+						{% endautoescape %}
+					</p>
+					<p class="mb-0">{{d.author}}</p>
+					<p>{{ d.publishedAt|date('d-m-Y H:i') }}</p>
+				</div>
+			</div>
+            </a>
+		{% endfor %}
+	</div>
+
+{% endblock %}

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Favory;
+use App\Entity\User;
 use App\Service\NewsApiService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,8 +14,11 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class ArticleController{
+class ArticleController extends AbstractController{
 
     /**
      * @var Environment;
@@ -35,19 +39,28 @@ class ArticleController{
     public function articles(Request $request,NewsApiService $newsApiService): Response{
         $id = $request->get('id');
         $data = $newsApiService->getArticles($id);
+        $data = array();
+        $data['tab']=$newsApiService->getArticles($id);
+        $data['id']=$request->get('id');
         return new Response($this->twig->render('pages/article.html.twig',['data' => $data,]));
     }
 
     /**
-     * @Route("/ajoutFav", name="AjoutFav")
+     * @Route("/ajoutFav/{id}", name="ajoutFav",methods={"POST"})
      */
-    public function ajoutFav(Request $request, UserInterface $user): Response{
-        $token = new CsrfToken('authenticate', $request->get('csrf_token'));
+    public function ajoutFav(Request $request,UserInterface $user): Response{
+        $token = new CsrfToken('ajoutFav', $request->get('_csrf_token'));
         if (!$this->csrfTokenManager->isTokenValid($token)) {
             throw new InvalidCsrfTokenException();
         }
-        $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $user->getUsername()]);
-        dd($user);
+        //dd($user);
+        //$user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $this->session->get('user').username]);
+        //dd($user);
+
+        if($this->entityManager->getRepository(Favory::class)->findOneByTitleAndUser($user,$request->get('title'))){
+            return $this->redirectToRoute('articles', ['id' => $request->get('id')]);
+        }
+
         $fav = new Favory();
         $fav->setSource($request->get('source'));
         $fav->setContent($request->get('content'));
@@ -56,9 +69,12 @@ class ArticleController{
         $fav->setUrl($request->get('url'));
         $fav->setUrlToImage($request->get('url_to_image'));
         $fav->setDescription($request->get('description'));
-        $fav->setPublishedAt($request->get('published_at'));
-
-        return new Response($this->twig->render('pages/article.html.twig'));
+        $fav->setPublishedAt(new \DateTime($request->get('published_at')));
+        $fav->setUser($user);
+        $this->entityManager->persist($fav);
+        $this->entityManager->flush();
+        //dd($fav);
+        return $this->redirectToRoute('articles', ['id' => $request->get('id')]);
     }
 
 

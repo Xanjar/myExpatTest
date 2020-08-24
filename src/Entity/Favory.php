@@ -63,6 +63,16 @@ class Favory
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $date_partage;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $partage;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -172,6 +182,30 @@ class Favory
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getDatePartage(): ?\DateTimeInterface
+    {
+        return $this->date_partage;
+    }
+
+    public function setDatePartage(?\DateTimeInterface $date_partage): self
+    {
+        $this->date_partage = $date_partage;
+
+        return $this;
+    }
+
+    public function getPartage(): ?bool
+    {
+        return $this->partage;
+    }
+
+    public function setPartage(?bool $partage): self
+    {
+        $this->partage = $partage;
 
         return $this;
     }

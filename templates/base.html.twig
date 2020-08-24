@@ -24,18 +24,55 @@
 							<span class="sr-only">(current)</span>
 						</a>
 					</li>
+					{% if app.user %}
+						<li class="nav-item active">
+							<a class="nav-link" href="/favoris">Liste des favoris
+								<span class="sr-only">(current)</span>
+							</a>
+						</li>
+					{% endif %}
+					<li class="nav-item active">
+						<a class="nav-link" href="/partages">Liste des partages
+							<span class="sr-only">(current)</span>
+						</a>
+					</li>
 				</ul>
 				{% if app.user %}
-				<div class="mb-3">
-					Vous êtes connecté en tant que
-					{{ app.user.username }}
-					<a href="{{ path('app_logout') }}" class="btn btn-primary">Se déconnecter</a>
-				</div>
+					<div class="mb-3">
+						Vous êtes connecté en tant que
+						{{ app.user.username }}
+						<a href="{{ path('app_logout') }}" class="btn btn-primary">
+							Se déconnecter
+							<svg width="1em" height="1em" viewbox="0 0 16 16" class="bi bi-box-arrow-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+								<path fill-rule="evenodd" d="M11.646 11.354a.5.5 0 0 1 0-.708L14.293 8l-2.647-2.646a.5.5 0 0 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0z"/>
+								<path fill-rule="evenodd" d="M4.5 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5z"/>
+								<path fill-rule="evenodd" d="M2 13.5A1.5 1.5 0 0 1 .5 12V4A1.5 1.5 0 0 1 2 2.5h7A1.5 1.5 0 0 1 10.5 4v1.5a.5.5 0 0 1-1 0V4a.5.5 0 0 0-.5-.5H2a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5v-1.5a.5.5 0 0 1 1 0V12A1.5 1.5 0 0 1 9 13.5H2z"/>
+							</svg>
+						</a>
+					</div>
 				{% else %}
-				<form class="form-inline my-2 my-lg-0">
-					<button class="btn btn-outline-info my-2 my-sm-0" type="submit"><a href ="/register">Inscription</a></button>
-					<button class="btn btn-outline-dark my-2 my-sm-0" type="submit"><a href ="/login">Connexion</a></button>
-				</form>
+					<form class="form-inline my-2 my-lg-0">
+						<button class="btn btn-outline-info my-2 my-sm-0" type="submit">
+							<a href="/register">
+								<svg width="1em" height="1em" viewbox="0 0 16 16" class="bi bi-box-arrow-in-down-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+									<path fill-rule="evenodd" d="M14.5 13a1.5 1.5 0 0 1-1.5 1.5H3A1.5 1.5 0 0 1 1.5 13V8a.5.5 0 0 1 1 0v5a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5H9a.5.5 0 0 1 0-1h4A1.5 1.5 0 0 1 14.5 3v10z"/>
+									<path fill-rule="evenodd" d="M4.5 10a.5.5 0 0 0 .5.5h5a.5.5 0 0 0 .5-.5V5a.5.5 0 0 0-1 0v4.5H5a.5.5 0 0 0-.5.5z"/>
+									<path fill-rule="evenodd" d="M10.354 10.354a.5.5 0 0 0 0-.708l-8-8a.5.5 0 1 0-.708.708l8 8a.5.5 0 0 0 .708 0z"/>
+								</svg>
+								Inscription
+							</a>
+						</button>
+						<button class="btn btn-outline-dark my-2 my-sm-0" type="submit">
+							<a href="/login">
+								<svg width="1em" height="1em" viewbox="0 0 16 16" class="bi bi-box-arrow-in-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+									<path fill-rule="evenodd" d="M8.146 11.354a.5.5 0 0 1 0-.708L10.793 8 8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0z"/>
+									<path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 1 8z"/>
+									<path fill-rule="evenodd" d="M13.5 14.5A1.5 1.5 0 0 0 15 13V3a1.5 1.5 0 0 0-1.5-1.5h-8A1.5 1.5 0 0 0 4 3v1.5a.5.5 0 0 0 1 0V3a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v10a.5.5 0 0 1-.5.5h-8A.5.5 0 0 1 5 13v-1.5a.5.5 0 0 0-1 0V13a1.5 1.5 0 0 0 1.5 1.5h8z"/>
+								</svg>
+								Connexion
+							</a>
+						</button>
+					</form>
 				{% endif %}
 			</div>
 		</nav>

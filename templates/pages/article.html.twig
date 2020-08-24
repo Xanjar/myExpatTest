@@ -4,9 +4,9 @@
 
 	<div class="container">
 		<h1 class="mb-5">Liste des dernières actualités de
-			{{data[0].source.name}}</h1>
-		{% for d in data %}
-			<div class="media mb-5">
+			{{data['tab'][0].source.name}}</h1>
+		{% for d in data['tab'] %}
+			<div class="media mb-5 p-4 border border-secondary rounded-pill bg-light">
 				<img src="{{d.urlToImage}}" height="64" width="64" class="align-self-center mr-3" alt="image de l'article">
 				<div class="media-body">
 					<a href="{{d.url}}" target="_blank" style=" text-decoration: none; background-color: none; color:black;">
@@ -20,20 +20,25 @@
 						<p class="mb-0">{{d.author}}</p>
 						<p>{{ d.publishedAt|date('d-m-Y H:i') }}</p>
 					</a>
-					<form method="post" action="/ajoutFav">
-						<input type="hidden" value="{{ d.urlToImage }}" name="url_to_image" id="inputurl_to_image" class="form-control">
-						<input type="hidden" value="{{ d.url }}" name="url" id="inputurl" class="form-control">
-						<input type="hidden" value="{{ d.source.name }}" name="source" id="inputsource" class="form-control">
-						<input type="hidden" value="{{ d.description }}" name="description" id="inputdescription" class="form-control">
-						<input type="hidden" value="{{ d.author }}" name="author" id="inputauthor" class="form-control">
-						<input type="hidden" value="{{ d.publishedAt }}" name="published_at" id="inputpublished_at" class="form-control">
-						<input type="hidden" value="{{ d.title }}" name="title" id="inputtitle" class="form-control">
-						<input type="hidden" value="{{ d.content }}" name="content" id="inputcontent" class="form-control">
-						<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-						<button class="btn btn-lg btn-primary" type="submit">
-							Ajouter aux favoris
-						</button>
-					</form>
+					{% if app.user %}
+						<form method="post" action="/ajoutFav/{{data['id']}}">
+							<input type="hidden" value="{{ d.urlToImage }}" name="url_to_image" id="inputurl_to_image" class="form-control">
+							<input type="hidden" value="{{ d.url }}" name="url" id="inputurl" class="form-control">
+							<input type="hidden" value="{{ d.source.name }}" name="source" id="inputsource" class="form-control">
+							<input type="hidden" value="{{ d.description }}" name="description" id="inputdescription" class="form-control">
+							<input type="hidden" value="{{ d.author }}" name="author" id="inputauthor" class="form-control">
+							<input type="hidden" value="{{ d.publishedAt }}" name="published_at" id="inputpublished_at" class="form-control">
+							<input type="hidden" value="{{ d.title }}" name="title" id="inputtitle" class="form-control">
+							<input type="hidden" value="{{ d.content }}" name="content" id="inputcontent" class="form-control">
+							<input type="hidden" name="_csrf_token" value="{{ csrf_token('ajoutFav') }}">
+							<button class="btn btn-lg btn-primary" type="submit">
+								Ajouter aux favoris
+								<svg width="1em" height="1em" viewbox="0 0 16 16" class="bi bi-star" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+									<path fill-rule="evenodd" d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.523-3.356c.329-.314.158-.888-.283-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767l-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288l1.847-3.658 1.846 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.564.564 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+								</svg>
+							</button>
+						</form>
+					{% endif %}
 				</div>
 			</div>
 

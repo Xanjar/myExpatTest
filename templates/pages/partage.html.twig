@@ -8,7 +8,7 @@
 			<div class="media mb-5 p-4 border border-secondary rounded-pill bg-light">
 				<img src="{{d.urlToimage}}" height="64" width="64" class="align-self-center mr-3" alt="image de l'article">
 				<div class="media-body">
-                    <p>Article partagé par {{d.user.username}}</p>
+                    <p>Article partagé par {{d.user.username}} le {{ d.datePartage|date('d-m-Y H:i') }}</p>
 					<a href="{{d.url}}" target="_blank" style=" text-decoration: none; background-color: none; color:black;">
 						<h5 class="mt-0">{{d.title}}</h5>
 						<p>

@@ -51,6 +51,7 @@ class FavoryRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('f')
             ->andWhere('f.partage= :partage')
             ->setParameter('partage', true)
+            ->orderBy('f.date_partage', 'ASC')
             ->getQuery()
             ->getResult()
         ;

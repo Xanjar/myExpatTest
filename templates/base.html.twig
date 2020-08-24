@@ -25,10 +25,18 @@
 						</a>
 					</li>
 				</ul>
+				{% if app.user %}
+				<div class="mb-3">
+					Vous êtes connecté en tant que
+					{{ app.user.username }}
+					<a href="{{ path('app_logout') }}" class="btn btn-primary">Se déconnecter</a>
+				</div>
+				{% else %}
 				<form class="form-inline my-2 my-lg-0">
 					<button class="btn btn-outline-info my-2 my-sm-0" type="submit"><a href ="/register">Inscription</a></button>
 					<button class="btn btn-outline-dark my-2 my-sm-0" type="submit"><a href ="/login">Connexion</a></button>
 				</form>
+				{% endif %}
 			</div>
 		</nav>
 		{% block body %}{% endblock %}

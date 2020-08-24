@@ -3,24 +3,40 @@
 {% block body %}
 
 	<div class="container">
-        <h1 class="mb-5">Liste des dernières actualités de {{data[0].source.name}}</h1>
+		<h1 class="mb-5">Liste des dernières actualités de
+			{{data[0].source.name}}</h1>
 		{% for d in data %}
-			<a href="{{d.url}}" target="_blank" style=" text-decoration: none; background-color: none; color:black;">
-            <div class="media mb-5">
+			<div class="media mb-5">
 				<img src="{{d.urlToImage}}" height="64" width="64" class="align-self-center mr-3" alt="image de l'article">
 				<div class="media-body">
-					<h5 class="mt-0">{{d.title}}</h5>
-					<p>
-						{% autoescape %}
-							{{ d.description|raw }}
-							{# var won't be escaped #}
-						{% endautoescape %}
-					</p>
-					<p class="mb-0">{{d.author}}</p>
-					<p>{{ d.publishedAt|date('d-m-Y H:i') }}</p>
+					<a href="{{d.url}}" target="_blank" style=" text-decoration: none; background-color: none; color:black;">
+						<h5 class="mt-0">{{d.title}}</h5>
+						<p>
+							{% autoescape %}
+								{{ d.description|raw }}
+								{# var won't be escaped #}
+							{% endautoescape %}
+						</p>
+						<p class="mb-0">{{d.author}}</p>
+						<p>{{ d.publishedAt|date('d-m-Y H:i') }}</p>
+					</a>
+					<form method="post" action="/ajoutFav">
+						<input type="hidden" value="{{ d.urlToImage }}" name="url_to_image" id="inputurl_to_image" class="form-control">
+						<input type="hidden" value="{{ d.url }}" name="url" id="inputurl" class="form-control">
+						<input type="hidden" value="{{ d.source.name }}" name="source" id="inputsource" class="form-control">
+						<input type="hidden" value="{{ d.description }}" name="description" id="inputdescription" class="form-control">
+						<input type="hidden" value="{{ d.author }}" name="author" id="inputauthor" class="form-control">
+						<input type="hidden" value="{{ d.publishedAt }}" name="published_at" id="inputpublished_at" class="form-control">
+						<input type="hidden" value="{{ d.title }}" name="title" id="inputtitle" class="form-control">
+						<input type="hidden" value="{{ d.content }}" name="content" id="inputcontent" class="form-control">
+						<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+						<button class="btn btn-lg btn-primary" type="submit">
+							Ajouter aux favoris
+						</button>
+					</form>
 				</div>
 			</div>
-            </a>
+
 		{% endfor %}
 	</div>
 
